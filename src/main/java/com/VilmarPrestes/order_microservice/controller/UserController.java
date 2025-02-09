@@ -31,10 +31,10 @@ public class UserController {
 
     // Método para criar um novo usuário
     @PostMapping
-    public ResponseEntity<User> criarUser(@RequestBody User user) {
+    public ResponseEntity<User> createUser(@RequestBody User user) {
         try {
-            User novoUser = userRepository.save(user);
-            return ResponseEntity.ok(novoUser);
+            User savedUser = userRepository.save(user);
+            return ResponseEntity.status(201).body(savedUser);
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
         }
