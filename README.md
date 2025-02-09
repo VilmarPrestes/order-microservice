@@ -1,23 +1,19 @@
-📌 CRUD Simples com Java Spring Boot, PostgreSQL e Docker
+# 📌 CRUD Simples com Java Spring Boot, PostgreSQL e Docker
 
-Este projeto é um CRUD simples desenvolvido com Spring Boot e integrado ao PostgreSQL rodando em um container Docker. Ele segue boas práticas de desenvolvimento e inclui testes unitários para garantir a qualidade do código.
+Este projeto é um CRUD simples desenvolvido com **Spring Boot** e integrado ao **PostgreSQL** rodando em um container Docker. Ele segue boas práticas de desenvolvimento e inclui testes unitários para garantir a qualidade do código.
 
-🚀 Tecnologias Utilizadas
+## 🚀 Tecnologias Utilizadas
 
-Java 17
+- **Java 17**
+- **Spring Boot 3.x** (Spring Web, Spring Data JPA, Spring Boot Starter Test)
+- **PostgreSQL** como banco de dados relacional
+- **Docker e Docker Compose** para containerização do banco de dados
+- **JUnit & Mockito** para testes unitários
+- **Postman** para testar as requisições da API
 
-Spring Boot 3.x (Spring Web, Spring Data JPA, Spring Boot Starter Test)
+## 📂 Estrutura do Projeto
 
-PostgreSQL como banco de dados relacional
-
-Docker e Docker Compose para containerização do banco de dados
-
-JUnit & Mockito para testes unitários
-
-Postman para testar as requisições da API
-
-📂 Estrutura do Projeto
-
+```plaintext
 src/
 ├── main/
 │   ├── java/com/exemplo/crud/
@@ -30,11 +26,13 @@ src/
 │   ├── resources/
 │       ├── application.properties  # Configurações da aplicação
 ├── test/  # Testes unitários e de integração
+```
 
-🐳 Configuração do Banco com Docker
+## 🐳 Configuração do Banco com Docker
 
-Para rodar o PostgreSQL no Docker, utilize o arquivo docker-compose.yml:
+Para rodar o PostgreSQL no Docker, utilize o arquivo `docker-compose.yml`:
 
+```yaml
 version: '3.8'
 
 services:
@@ -53,23 +51,31 @@ services:
 
 volumes:
   postgres_data:
+```
 
-📌 Rodando o Banco de Dados
+### 📌 Rodando o Banco de Dados
 
+```sh
 docker-compose up -d
+```
 
 Para verificar se o container está rodando:
 
+```sh
 docker ps
+```
 
 Se precisar parar o banco:
 
+```sh
 docker-compose down
+```
 
-🔧 Configuração do Spring Boot
+## 🔧 Configuração do Spring Boot
 
-No arquivo application.properties:
+No arquivo `application.properties`:
 
+```properties
 spring.datasource.url=jdbc:postgresql://localhost:5432/crud
 spring.datasource.username=admin
 spring.datasource.password=admin
@@ -78,11 +84,13 @@ spring.datasource.driver-class-name=org.postgresql.Driver
 spring.jpa.database-platform=org.hibernate.dialect.PostgreSQLDialect
 spring.jpa.hibernate.ddl-auto=update
 spring.jpa.show-sql=true
+```
 
-📡 Testando a API no Postman
+## 📡 Testando a API no Postman
 
-Criar um novo usuário (POST)
+### Criar um novo usuário (POST)
 
+```http
 POST http://localhost:8080/usuarios
 Content-Type: application/json
 
@@ -90,17 +98,23 @@ Content-Type: application/json
     "nome": "João Silva",
     "email": "joao@email.com"
 }
+```
 
-Buscar todos os usuários (GET)
+### Buscar todos os usuários (GET)
 
+```http
 GET http://localhost:8080/usuarios
+```
 
-Buscar um usuário por ID (GET)
+### Buscar um usuário por ID (GET)
 
+```http
 GET http://localhost:8080/usuarios/{id}
+```
 
-Atualizar um usuário (PUT)
+### Atualizar um usuário (PUT)
 
+```http
 PUT http://localhost:8080/usuarios/{id}
 Content-Type: application/json
 
@@ -108,40 +122,33 @@ Content-Type: application/json
     "nome": "João Silva Atualizado",
     "email": "joao@email.com"
 }
+```
 
-Deletar um usuário (DELETE)
+### Deletar um usuário (DELETE)
 
+```http
 DELETE http://localhost:8080/usuarios/{id}
+```
 
-🧪 Testes Unitários
+## 🧪 Testes Unitários
 
-Os testes estão localizados no diretório src/test/java/com/exemplo/crud/. Para rodá-los, use:
+Os testes estão localizados no diretório `src/test/java/com/exemplo/crud/`. Para rodá-los, use:
 
+```sh
 mvn test
+```
 
-📜 Boas Práticas Seguidas
+## 📜 Boas Práticas Seguidas
 
-Camadas separadas (Controller, Service, Repository) para organização do código.
+- **Camadas separadas (Controller, Service, Repository)** para organização do código.
+- **Uso de DTOs** para evitar exposição direta das entidades.
+- **Tratamento de erros personalizado** para melhor experiência de API.
+- **Testes unitários** com JUnit e Mockito.
+- **Configuração via ****`application.properties`** para facilitar deploy em diferentes ambientes.
 
-Uso de DTOs para evitar exposição direta das entidades.
+---
 
-Tratamento de erros personalizado para melhor experiência de API.
+Esse projeto é um exemplo simples e pode ser expandido para incluir autenticação, logs avançados e mais funcionalidades! 🚀
 
-Testes unitários com JUnit e Mockito.
-
-Configuração via application.properties para facilitar deploy em diferentes ambientes.
-
-
-
-
-docker-compose up -d
-
-docker ps
-
-docker-compose down
-
-docker exec -it meu_postgres psql -U admin -d meu_banco
-
-SELECT * FROM users;
-
+onde adiciono descrição do projeto?
 
