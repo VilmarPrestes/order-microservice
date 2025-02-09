@@ -1,17 +1,18 @@
-# 📌 CRUD com Java Spring Boot, PostgreSQL e Docker
+# 📌 CRUD com Java Spring Boot, PostgreSQL, Docker e RabbitMQ
 
-Este projeto é um CRUD simples desenvolvido com **Spring Boot** e integrado ao **PostgreSQL** rodando em um container Docker. Ele segue boas práticas de desenvolvimento e inclui testes unitários para garantir a qualidade do código.
+Este projeto é um CRUD simples desenvolvido com **Spring Boot** e integrado ao **PostgreSQL** rodando em um container Docker. Além disso, utiliza **RabbitMQ** para comunicação assíncrona, permitindo a implementação de eventos ao cadastrar usuários. Ele segue boas práticas de desenvolvimento e inclui testes unitários para garantir a qualidade do código.
 
 ## 🚀 Tecnologias Utilizadas
 
 - **Java 17**
-- **Spring Boot 3.x** (Spring Web, Spring Data JPA, Spring Boot Starter Test)
+- **Spring Boot 3.x** (Spring Web, Spring Data JPA, Spring Boot Starter Test, Spring AMQP)
 - **PostgreSQL** como banco de dados relacional
-- **Docker e Docker Compose** para containerização do banco de dados
+- **Docker e Docker Compose** para containerização do banco de dados e RabbitMQ
+- **RabbitMQ** para mensageria
 - **JUnit & Mockito** para testes unitários
 - **Postman** para testar as requisições da API
 
-## 📂 Estrutura do Projeto
+## 📚 Estrutura do Projeto
 
 ```plaintext
 src/
@@ -23,14 +24,15 @@ src/
 │   │   ├── model/       # Modelos/Entidades JPA
 │   │   ├── dto/         # Objetos de transferência de dados
 │   │   ├── exception/   # Tratamento de erros
+│   │   ├── messaging/   # Comunicação assíncrona com RabbitMQ
 │   ├── resources/
 │       ├── application.properties  # Configurações da aplicação
 ├── test/  # Testes unitários e de integração
 ```
 
-## 🐳 Configuração do Banco com Docker
+## 🐙 Configuração do Banco e RabbitMQ com Docker
 
-Para rodar o PostgreSQL no Docker, utilize o arquivo `docker-compose.yml`:
+Para rodar o PostgreSQL e o RabbitMQ no Docker, utilize o arquivo `docker-compose.yml`:
 
 ```yaml
 version: '3.8'
@@ -49,23 +51,34 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: meu_rabbitmq
+    restart: always
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: admin
+    ports:
+      - "5672:5672"  # Porta para comunicação com a aplicação
+      - "15672:15672" # Painel de controle web
+
 volumes:
   postgres_data:
 ```
 
-### 📌 Rodando o Banco de Dados
+### 📌 Rodando os Serviços
 
 ```sh
 docker-compose up -d
 ```
 
-Para verificar se o container está rodando:
+Para verificar se os containers estão rodando:
 
 ```sh
 docker ps
 ```
 
-Se precisar parar o banco:
+Para parar os serviços:
 
 ```sh
 docker-compose down
@@ -76,6 +89,7 @@ docker-compose down
 No arquivo `application.properties`:
 
 ```properties
+# Configuração do PostgreSQL
 spring.datasource.url=jdbc:postgresql://localhost:5432/crud
 spring.datasource.username=admin
 spring.datasource.password=admin
@@ -84,9 +98,15 @@ spring.datasource.driver-class-name=org.postgresql.Driver
 spring.jpa.database-platform=org.hibernate.dialect.PostgreSQLDialect
 spring.jpa.hibernate.ddl-auto=update
 spring.jpa.show-sql=true
+
+# Configuração do RabbitMQ
+spring.rabbitmq.host=localhost
+spring.rabbitmq.port=5672
+spring.rabbitmq.username=admin
+spring.rabbitmq.password=admin
 ```
 
-## 📡 Testando a API no Postman
+## 💽 Testando a API no Postman
 
 ### Criar um novo usuário (POST)
 
@@ -130,6 +150,16 @@ Content-Type: application/json
 DELETE http://localhost:8080/usuarios/{id}
 ```
 
+## 📨 Comunicação Assíncrona com RabbitMQ
+
+O sistema envia uma mensagem ao RabbitMQ sempre que um usuário é cadastrado. Essa mensagem pode ser consumida posteriormente para notificações ou outros serviços.
+
+### Exemplo de Mensagem Enviada
+
+```
+Novo usuário cadastrado: João Silva
+```
+
 ## 🧪 Testes Unitários
 
 Os testes estão localizados no diretório `src/test/java/com/exemplo/crud/`. Para rodá-los, use:
@@ -138,17 +168,14 @@ Os testes estão localizados no diretório `src/test/java/com/exemplo/crud/`. Pa
 mvn test
 ```
 
-## 📜 Boas Práticas Seguidas
+## 📝 Boas Práticas Seguidas
 
-- **Camadas separadas (Controller, Service, Repository)** para organização do código.
+- **Camadas separadas (Controller, Service, Repository, Messaging)** para organização do código.
 - **Uso de DTOs** para evitar exposição direta das entidades.
 - **Tratamento de erros personalizado** para melhor experiência de API.
 - **Testes unitários** com JUnit e Mockito.
-- **Configuração via ****`application.properties`** para facilitar deploy em diferentes ambientes.
+- **Uso de RabbitMQ** para processamento assíncrono.
+- **Configuração via `application.properties`** para facilitar deploy em diferentes ambientes.
 
 ---
-
-Esse projeto é um exemplo simples e pode ser expandido para incluir autenticação, logs avançados e mais funcionalidades! 🚀
-
-onde adiciono descrição do projeto?
 
