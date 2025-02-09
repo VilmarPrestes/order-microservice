@@ -1,4 +1,4 @@
-# 📌 CRUD Simples com Java Spring Boot, PostgreSQL e Docker
+# 📌 CRUD com Java Spring Boot, PostgreSQL e Docker
 
 Este projeto é um CRUD simples desenvolvido com **Spring Boot** e integrado ao **PostgreSQL** rodando em um container Docker. Ele segue boas práticas de desenvolvimento e inclui testes unitários para garantir a qualidade do código.
 
