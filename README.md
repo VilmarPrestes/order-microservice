@@ -13,6 +13,16 @@ Este projeto é um CRUD simples desenvolvido com **Spring Boot** e integrado ao 
 - **JUnit & Mockito** para testes unitários
 - **Postman** para testar as requisições da API
 
+## 📝 Boas Práticas Seguidas
+
+- **Camadas separadas (Controller, Service, Repository, Messaging)** para organização do código.
+- **Uso de DTOs** para evitar exposição direta das entidades.
+- **Tratamento de erros personalizado** para melhor experiência de API.
+- **Testes unitários** com JUnit e Mockito.
+- **Uso de RabbitMQ** para processamento assíncrono.
+- **Configuração via `application.properties`** para facilitar deploy em diferentes ambientes.
+- **Aplicação dos princípios SOLID, DRY e Design Patterns** para um código mais modular e reutilizável.
+
 ## 📚 Estrutura do Projeto
 
 ```plaintext
@@ -168,16 +178,6 @@ Os testes estão localizados no diretório `src/test/java/com/exemplo/crud/`. Pa
 ```sh
 mvn test
 ```
-
-## 📝 Boas Práticas Seguidas
-
-- **Camadas separadas (Controller, Service, Repository, Messaging)** para organização do código.
-- **Uso de DTOs** para evitar exposição direta das entidades.
-- **Tratamento de erros personalizado** para melhor experiência de API.
-- **Testes unitários** com JUnit e Mockito.
-- **Uso de RabbitMQ** para processamento assíncrono.
-- **Configuração via `application.properties`** para facilitar deploy em diferentes ambientes.
-- **Aplicação dos princípios SOLID, DRY e Design Patterns** para um código mais modular e reutilizável.
 
 ---
 
