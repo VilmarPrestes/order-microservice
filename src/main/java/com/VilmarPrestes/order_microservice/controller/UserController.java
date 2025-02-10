@@ -3,8 +3,10 @@ package com.VilmarPrestes.order_microservice.controller;
 import com.VilmarPrestes.order_microservice.model.User;
 import com.VilmarPrestes.order_microservice.repository.UserRepository;
 import com.VilmarPrestes.order_microservice.service.UserProducer;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,6 +14,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/users")
+@Validated
 public class UserController {
 
     @Autowired
@@ -32,7 +35,7 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<User> createUser(@RequestBody User user) {
+    public ResponseEntity<User> createUser(@RequestBody @Valid User user) {
         try {
             User savedUser = userRepository.save(user);
 

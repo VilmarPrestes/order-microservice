@@ -2,6 +2,7 @@ package com.VilmarPrestes.order_microservice.model;
 
 
 import jakarta.persistence.*; //ja add tudo da tabela - importante
+import jakarta.validation.constraints.NotBlank;
 
 @Entity  // Indica que esta classe é uma entidade do banco
 @Table(name = "users") // Nome da tabela no banco
@@ -11,9 +12,11 @@ public class User {
     private Long id;
 
     @Column(nullable = false) // Define que este campo não pode ser nulo
+    @NotBlank
     private String nome;
 
     @Column(nullable = false, unique = true) // Define que o email é único
+    @NotBlank
     private String email;
 
     // Construtor padrão

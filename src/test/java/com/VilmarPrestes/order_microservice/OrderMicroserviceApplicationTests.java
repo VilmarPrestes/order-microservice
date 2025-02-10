@@ -39,6 +39,7 @@ private WebTestClient webTestClient;
 				.uri("/users")
 				.bodyValue(user)
 				.exchange()
-				.expectStatus().isBadRequest();
+				.expectStatus().isBadRequest()
+				.expectBody();
 	}
 }
