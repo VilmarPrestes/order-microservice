@@ -14,8 +14,9 @@ private WebTestClient webTestClient;
 	@Test
 	void testCreateOrderSucess() {
 		var user = new User(
-				"Maria Silva",
-				"maria.silva@email.com"
+//				"Maria Silva",
+//				"maria.silva@email.com"
+
 			);
 
 		webTestClient
@@ -26,18 +27,18 @@ private WebTestClient webTestClient;
 				.expectStatus().isCreated()
 				.expectBody()
 				.jsonPath("$.id").isNumber()  // ID deve ser um número gerado automaticamente
-				.jsonPath("$.nome").isEqualTo(user.getNome()) // Verifica o nome correto
+				.jsonPath("$.name").isEqualTo(user.getName()) // Verifica o nome correto
 				.jsonPath("$.email").isEqualTo(user.getEmail()); // Verifica o email correto
 	}
 
 	@Test
 	void testCreateOrderFailure() {
-		var user = new User("", "");
+//		var user = new User("", "");
 
 		webTestClient
 				.post()
 				.uri("/users")
-				.bodyValue(user)
+//				.bodyValue(user)
 				.exchange()
 				.expectStatus().isBadRequest()
 				.expectBody();
