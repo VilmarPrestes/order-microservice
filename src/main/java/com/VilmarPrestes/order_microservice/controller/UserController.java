@@ -5,6 +5,7 @@ import com.VilmarPrestes.order_microservice.repository.UserRepository;
 import com.VilmarPrestes.order_microservice.service.UserProducer;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -35,14 +36,14 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<User> createUser(@RequestBody @Valid User user) {
+    public ResponseEntity<List<User>> createUser(@RequestBody @Valid List<User> users) {
         try {
-            User savedUser = userRepository.save(user);
+            List<User> savedUsers = userRepository.saveAll(users);
 
             // Send message to RabbitMQ
-            userProducer.sendMessage("New user registered: " + savedUser.getName());
+            savedUsers.forEach(user -> userProducer.sendMessage("New user registered: " + user.getName()));
 
-            return ResponseEntity.status(201).body(savedUser);
+            return ResponseEntity.status(HttpStatus.CREATED).body(savedUsers);
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
         }
