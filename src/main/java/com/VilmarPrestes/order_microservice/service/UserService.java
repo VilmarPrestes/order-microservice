@@ -26,7 +26,7 @@ public class UserService {
     public List<User> createUsers(List<User> users) {
         List<User> savedUsers = userRepository.saveAll(users);
 
-        // Envia mensagem para RabbitMQ
+        // Send message to RabbitMQ
         savedUsers.forEach(user -> userProducer.sendMessage("New user registered: " + user.getName()));
 
         return savedUsers;
