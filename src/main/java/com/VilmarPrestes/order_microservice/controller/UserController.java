@@ -1,8 +1,6 @@
 package com.VilmarPrestes.order_microservice.controller;
 
 import com.VilmarPrestes.order_microservice.model.User;
-import com.VilmarPrestes.order_microservice.repository.UserRepository;
-import com.VilmarPrestes.order_microservice.service.UserProducer;
 import com.VilmarPrestes.order_microservice.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
