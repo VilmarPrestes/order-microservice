@@ -2,6 +2,7 @@ package com.VilmarPrestes.order_microservice.service;
 import com.VilmarPrestes.order_microservice.model.User;
 import com.VilmarPrestes.order_microservice.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,6 +16,9 @@ public class UserService {
     @Autowired
     private UserProducer userProducer; // RabbitMQ Producer Injection
 
+    @Autowired
+    private PasswordEncoder encoder;
+
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
@@ -23,7 +27,24 @@ public class UserService {
         return userRepository.findById(id);
     }
 
+    public boolean validPassword(String email, String password) {
+        Optional<User> optUser = userRepository.findByEmail(email);
+
+        if (optUser.isEmpty()) {
+            return false;
+        }
+
+        User user = optUser.get();
+        return encoder.matches(password, user.getPassword());
+    }
+
     public List<User> createUsers(List<User> users) {
+        users.forEach(user -> {
+            if (user.getPassword() != null && !user.getPassword().isEmpty()) {
+                user.setPassword(encoder.encode(user.getPassword()));
+            }
+        });
+
         List<User> savedUsers = userRepository.saveAll(users);
 
         // Send message to RabbitMQ

@@ -1,6 +1,7 @@
 package com.VilmarPrestes.order_microservice.controller;
 
 import com.VilmarPrestes.order_microservice.model.User;
+import com.VilmarPrestes.order_microservice.repository.UserRepository;
 import com.VilmarPrestes.order_microservice.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,8 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private UserRepository userRepository;
 
     @GetMapping
     public ResponseEntity<List<User>> getAllUsers() {
@@ -31,6 +34,16 @@ public class UserController {
         return userService.getUserById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/validPassword")
+    public ResponseEntity<Boolean> validPassword(@RequestParam String email,
+                                                @RequestParam String password) {
+
+        boolean valid = userService.validPassword(email, password);
+
+        HttpStatus status = valid ? HttpStatus.OK : HttpStatus.UNAUTHORIZED;
+        return ResponseEntity.status(status).body(valid);
     }
 
     @PostMapping
