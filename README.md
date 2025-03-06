@@ -1,4 +1,4 @@
-# 📌 CRUD com Java Spring Boot, PostgreSQL, Docker e RabbitMQ
+# 📌 CRUD com Java Spring Boot, PostgreSQL, Docker e RabbitMQ, além de encriptação de senhas
 
 Este projeto é um CRUD simples desenvolvido com **Spring Boot** e integrado ao **PostgreSQL** rodando em um container Docker. Além disso, utiliza **RabbitMQ** para comunicação assíncrona, permitindo a implementação de eventos ao cadastrar usuários. Ele segue boas práticas de desenvolvimento e inclui testes unitários para garantir a qualidade do código. O projeto também utiliza **Swagger** para documentação e visualização das APIs.
 
